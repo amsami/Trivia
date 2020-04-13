@@ -103,7 +103,6 @@ DELETE '/questions/<int:question_id>'
         'difficulty': self.difficulty
     }],
     'total_questions': len(questions),
-    'category': "",
     'categories': {
         '1' : "Science",
         '2' : "Art",
@@ -114,13 +113,9 @@ DELETE '/questions/<int:question_id>'
     }
 }
 
-POST '/questions'
-- This will take fields for adding a new question to the database or a search term.  If a search term is provided, then it will return a list of questions for whom the search term is a substring of the question (case insensitive).  Otherwise, it will add a new question to the database and return the updated list of questions.
+POST '/questions/search'
+- This will take a search term, then it will return a list of questions for whom the search term is a substring of the question (case insensitive).  
 - Request Arguments: {
-    'question': string,
-    'answer': string,
-    'difficulty': int (value 1-5),
-    'category': int (value 1-6),
     'searchTerm': string
 }
 - Returns: An object containing a list of question objects for the current page, total number of questions, an empty category, and an object with a single key, categories, that contains a object of id: category_string key:value pairs.
@@ -141,6 +136,16 @@ POST '/questions'
         '5' : "Entertainment",
         '6' : "Sports"
     }
+}
+
+POST '/questions'
+- This will take fields for adding a new question to the database.  
+- Adds the question to the database
+- Request Arguments: {
+    'question': string,
+    'answer': string,
+    'difficulty': int (value 1-5),
+    'category': int (value 1-6),
 }
 
 GET '/categories/<int:category_id>/questions'
@@ -167,7 +172,8 @@ GET '/categories/<int:category_id>/questions'
 }
 
 POST '/quizzes'
-- Fetches a question from the selected category (or from the entire list if all categories were selected), that has not been previously displayed for the current quiz, then randomly selects a question from that list.
+- Fetches a question from the selected category (or from the entire list if all categories were selected), 
+that has not been previously displayed for the current quiz, then randomly selects a question from that list.
 - Request Arguments: An object containing a list of previous questions used and a category id to select questions from.
 {
     'previous_questions': [],
